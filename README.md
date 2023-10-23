@@ -6,5 +6,5 @@ This project includes creating objects, learning about file serialization, and c
 
 **Command Interpreter Description**
 In order to start it,
-in order to use it,
-examples:
+In order to use it,
+Examples:
