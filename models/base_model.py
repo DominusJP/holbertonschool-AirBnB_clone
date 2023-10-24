@@ -13,7 +13,7 @@ class BaseModel:
             # asign universal unique identifier
         self.created_at = datetime.now() \
             # assigns current date to the created_at attribute
-        self.updated_at = datetime.now() \
+        self.updated_at = self.created_at \
             # assigns current date to the updated_at attribute
 
     def save(self):
@@ -28,7 +28,7 @@ class BaseModel:
         """prints class name followed by id and dict"""
         class_name = self.__class__.__name__ \
             # gets the name of the class as a string
-        return(f"[{class_name}] ({self.id}) {self.__dict__}") \
+        return (f"[{class_name}] ({self.id}) {self.__dict__}") \
             # prints the class name followed by the id and dict
 
     def to_dict(self):
@@ -43,6 +43,8 @@ class BaseModel:
         # of the "datetime" objects
         data['updated_at'] = self.updated_at.isoformat() \
             # same thing but for the updated_at attribute
+        data['__class__'] = self.__class__.__name__ \
+            # same thing as before
         return data \
             # This line returns the data dictionary, which contains
         # a serialized representation of the instance's attributes.
