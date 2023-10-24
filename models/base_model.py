@@ -35,7 +35,7 @@ class BaseModel:
     def to_dict(self):
         """This method is used to convert the instance's attributes
         into a dictionary for serialization."""
-        data = self.__dict__ \
+        data = self.__dict__.copy() \
             # creates a copy of the instance's attribute dictionary
         # using self.__dict__
         data['__class__'] = self.__class__.__name__
