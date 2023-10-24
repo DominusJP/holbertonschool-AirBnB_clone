@@ -11,7 +11,7 @@ class BaseModel:
         """Contructor for the Base Model Class"""
         self.id = str(uuid.uuid4()) \
             # asign universal unique identifier
-        self.created_at = datetime.now() \
+        self.created_at = datetime.datetime.now() \
             # assigns current date to the created_at attribute
         self.updated_at = self.created_at \
             # assigns current date to the updated_at attribute
@@ -20,7 +20,7 @@ class BaseModel:
         """This line defines a method named save. This method is used
         to update the updated_at attribute with the current date and time
         whenever an instance is modified."""
-        self.updated_at = datetime.now() \
+        self.updated_at = datetime.datetime.now() \
             # This line updates the updated_at attribute with the
         # current date and time when the save method is called.
         return self.updated_at
