@@ -4,7 +4,7 @@ import uuid  # librery for the universal unique identifier
 from datetime import datetime  # librery for gettig current date
 
 
-class baseModel:
+class BaseModel:
     """Base Model"""
 
     def __init__(self):
