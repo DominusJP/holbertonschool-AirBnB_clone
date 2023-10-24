@@ -23,6 +23,7 @@ class BaseModel:
         self.updated_at = datetime.now() \
             # This line updates the updated_at attribute with the
         # current date and time when the save method is called.
+        return self.updated_at
 
     def __str__(self):
         """prints class name followed by id and dict"""
@@ -34,18 +35,17 @@ class BaseModel:
     def to_dict(self):
         """This method is used to convert the instance's attributes
         into a dictionary for serialization."""
-        data = {}
-        data['my_number'] = self.my_number
-        data['name'] = self.name
-        data['__class__'] = self.__class__.__name__ \
-            # same thing as before
-        data['updated_at'] = self.updated_at.isoformat() \
-            # same thing but for the updated_at attribute
-        data['id'] = self.id
-        data['created_at'] = self.created_at.isoformat() \
-            # adds the created_at attribute to the "data" dictionary
-        # in ISO format using the "isoformat" method
-        # of the "datetime" objects
+        self.created_iso = self.created_at.isoformat()
+        self.updated_iso = self.updated_at.isoformat()
+
+        data = {
+            'my_number': self.my_number,
+            'name': self.name,
+            '__class__': self.__class__.__name__,
+            'updated_at': self.updated_iso,
+            'id': self.id,
+            'created_at': self.created_iso,
+        }
 
         return data \
             # This line returns the data dictionary, which contains
