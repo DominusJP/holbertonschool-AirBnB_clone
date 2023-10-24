@@ -34,17 +34,19 @@ class BaseModel:
     def to_dict(self):
         """This method is used to convert the instance's attributes
         into a dictionary for serialization."""
-        data = self.__dict__ \
-            # creates a copy of the instance's attribute dictionary
-        # using self.__dict__
+        data = {}
+        data['my_number'] = self.my_number
+        data['name'] = self.name
+        data['__class__'] = self.__class__.__name__ \
+            # same thing as before
+        data['updated_at'] = self.updated_at.isoformat() \
+            # same thing but for the updated_at attribute
+        data['id'] = self.id
         data['created_at'] = self.created_at.isoformat() \
             # adds the created_at attribute to the "data" dictionary
         # in ISO format using the "isoformat" method
         # of the "datetime" objects
-        data['updated_at'] = self.updated_at.isoformat() \
-            # same thing but for the updated_at attribute
-        data['__class__'] = self.__class__.__name__ \
-            # same thing as before
+
         return data \
             # This line returns the data dictionary, which contains
         # a serialized representation of the instance's attributes.
