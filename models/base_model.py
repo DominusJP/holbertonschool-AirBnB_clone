@@ -38,7 +38,7 @@ class BaseModel:
         data = self.__dict__.copy() \
             # creates a copy of the instance's attribute dictionary
         # using self.__dict__
-        data['__class__'] = self.__class__.__name__
+        data['__class__'] = type(self).__name__
         data['created_at'] = self.created_at.isoformat() \
             # adds the created_at attribute to the "data" dictionary
         # in ISO format using the "isoformat" method
