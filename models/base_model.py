@@ -28,7 +28,7 @@ class BaseModel:
         """prints class name followed by id and dict"""
         class_name = self.__class__.__name__ \
             # gets the name of the class as a string
-        print(f"[{class_name}] ({self.id}) {self.__dict__}") \
+        return(f"[{class_name}] ({self.id}) {self.__dict__}") \
             # prints the class name followed by the id and dict
 
     def to_dict(self):
