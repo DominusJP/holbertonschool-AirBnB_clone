@@ -7,13 +7,29 @@ from datetime import datetime  # librery for gettig current date
 class BaseModel:
     """Base Model"""
 
-    def __init__(self):
-        """Contructor for the Base Model Class"""
-        self.id = str(uuid.uuid4()) \
+    def __init__(self, *args, **kwargs):
+        """Constructor for the Base Model Class,
+        now accepting args and kwargs"""
+        if kwargs:
+            # just checking if kwargs are provided (not empty)
+            for key, value in kwargs.items():
+                # iterating through the keyword arguments
+                if key != '__class__':
+                    # checking/excluding the '__class__' key from kargs
+                    if key in ['created_at', 'updated_at']:
+                        # check if the key is in one of those attributes
+                        setattr(self, key, datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f"))
+                        # in order to convert the string representation into a daytime object
+                    else:
+                        setattr(self, key, value)
+                        # set new attributes based on new provided values
+        else:
+            # if not keywards not provided, generate new id, createdat and updated at attributes
+            self.id = str(uuid.uuid4())
             # asign universal unique identifier
-        self.created_at = datetime.now() \
+            self.created_at = datetime.now()
             # assigns current date to the created_at attribute
-        self.updated_at = self.created_at \
+            self.updated_at = self.created_at
             # assigns current date to the updated_at attribute
 
     def save(self):
