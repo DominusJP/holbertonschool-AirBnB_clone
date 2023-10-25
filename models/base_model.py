@@ -31,6 +31,7 @@ class BaseModel:
             # assigns current date to the created_at attribute
             self.updated_at = self.created_at
             # assigns current date to the updated_at attribute
+        storage.new(self) # set other attributes from kwargs
 
     def save(self):
         """This line defines a method named save. This method is used
@@ -39,6 +40,7 @@ class BaseModel:
         self.updated_at = datetime.now() \
             # This line updates the updated_at attribute with the
         # current date and time when the save method is called.
+        storage.save() # save the obkect using the storage
         return self.updated_at
 
     def __str__(self):
