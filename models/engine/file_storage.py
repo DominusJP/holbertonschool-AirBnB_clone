@@ -12,7 +12,7 @@ class FileStorage:
     """
 
 
-    __file_path = "file.json"wq
+    __file_path = "file.json"
     def __init__(self):
         """
         Constructor for the FileStorage class
@@ -37,8 +37,8 @@ class FileStorage:
         serializes __objects to the JSON file
         """
         ser_data = {}
-            for key, value in self.__objects.items():
-                ser_data[key] = value.to_dict()
+        for key, value in self.__objects.items():
+            ser_data[key] = value.to_dict()
         with open(self.__file_path, "w") as file:
             json.dump(ser_data, file)
 
@@ -53,7 +53,7 @@ class FileStorage:
                 # make sure the file is correctly opened and closed
                     deser_data = json.loads(self.__file_path)
                 for key, value in deser_data.items:
-                    class_name, obj_id = key.split(".") /
+                    class_name, obj_id = key.split(".")
                     # splits the key in two parts, 
                     # to extract the class_name and obj id
                     cls = models[class_name]
