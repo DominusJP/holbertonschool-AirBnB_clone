@@ -37,3 +37,13 @@ class Tests_BaseModel(unittest.TestCase):
         obj1 = BaseModel()
         self.assertEqual(str, type(obj1.__str__()))
         self.assertEqual(dict, type(obj1.to_dict()))
+
+    def test_reload(self):
+        self.storage.new(self.base_model)
+        self.storage.save()
+
+        new_storage = FileStorage()
+        new_storage.reload()
+
+        obj_key = f"{self.base_model.__class__.__name__}.{self.base_model.id}"
+        self.assertTrue(obj_key in new_storage.all())

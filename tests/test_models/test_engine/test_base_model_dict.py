@@ -28,11 +28,7 @@ print(my_model is my_new_model)
 
 class Tests_FileStorage(unittest.TestCase):
     """
-    tests of FileStorage class:
-        - test 'all'
-        - test 'new'
-        - test 'save'
-        - test 'reload'
+    tests of FileStorage class
     """
 
     def setUp(self):
