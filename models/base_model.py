@@ -2,8 +2,8 @@
 """Base class that will inherit to all other classes"""
 import uuid  # librery for the universal unique identifier
 from datetime import datetime  # librery for gettig current date
-from models.engine.file_storage import FileStorage
-from models.__init__ import storage
+#from models.engine.file_storage import FileStorage
+import models
 
 class BaseModel:
     """Base Model"""

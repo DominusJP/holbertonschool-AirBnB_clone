@@ -2,6 +2,7 @@
 """
 File with class FileStorage
 """
+from models.base_model import BaseModel
 import json
 import os
 
@@ -13,6 +14,7 @@ class FileStorage:
 
 
     __file_path = "file.json"
+    class_dict = {"BaseModel":BaseModel}
     def __init__(self):
         """
         Constructor for the FileStorage class
@@ -44,7 +46,7 @@ class FileStorage:
 
     def reload(self):
         """
-        .
+        Deserializes the JSON file to __objects if it exists.
         """
         if os.path.exists(self.__file_path):
             try:
@@ -53,11 +55,14 @@ class FileStorage:
                 # make sure the file is correctly opened and closed
                     deser_data = json.loads(self.__file_path)
                 for key, value in deser_data.items:
-                    class_name, obj_id = key.split(".")
+                    ##class_name, obj_id = key.split(".")
                     # splits the key in two parts, 
                     # to extract the class_name and obj id
-                    cls = models[class_name]
-                    self.__objects[key] = cls(**value)
+                    ##cls = models[class_name]
+                    obj = self.class_dict[value["__class__"]](**value)
+                    # Searches for the dictionary name in the dictionary and
+                    # assigns it to the objy
+                    self.__objects[key] = obj#cls(**value)
                     # Creates a new instance of the class using value as argument
                     # storing it in the __objects dictionary
             except Exception:
