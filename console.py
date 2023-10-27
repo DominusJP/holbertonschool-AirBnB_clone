@@ -5,6 +5,7 @@ console for the project
 import cmd
 from models.base_model import BaseModel
 from models import storage
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -12,7 +13,7 @@ class HBNBCommand(cmd.Cmd):
     Class to program the different commands
     """
     models = ["BaseModel", "User", "State", "City",
-              "Amenity", "Place", "Review"]
+              "Amenity", "Place", "Review", "User"]
     prompt = '(hbnb) '
 
     def do_quit(self, arg):
