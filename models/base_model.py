@@ -3,7 +3,7 @@
 import uuid  # librery for the universal unique identifier
 from datetime import datetime  # librery for gettig current date
 #from models.engine.file_storage import FileStorage
-import models
+from models.__init__ import storage
 
 class BaseModel:
     """Base Model"""
