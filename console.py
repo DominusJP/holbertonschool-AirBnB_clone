@@ -101,7 +101,8 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
             else:
                 del obj_dict[key]
-
+                storage.save()
+                
     def do_all(self, *args):
         """
         Prints all string representation of all instances
