@@ -40,16 +40,21 @@ class HBNBCommand(cmd.Cmd):
         creates a new instance of an object
         """
         arg = args[0].split()
+        class_name = arg[0]
         if len(arg) == 0:
             print("** class name missing **")
 
         elif arg[0] not in HBNBCommand.models:
             print("** class doesn't exist **")
 
-        else:
-            obj = eval(arg[0]+"()")
+        elif class_name in globals():
+            obj = globals()[class_name]()
+            # globals is a built in function including all of the
+            # variables and their values
             obj.save()
             print(obj.id)
+        elif class_name not in globals():
+            print("** class doesn't exist **")
 
     def do_show(self, *args):
         """
