@@ -2,8 +2,8 @@
 """Base class that will inherit to all other classes"""
 import uuid  # librery for the universal unique identifier
 from datetime import datetime  # librery for gettig current date
-#from models.engine.file_storage import FileStorage
 from models.__init__ import storage
+
 
 class BaseModel:
     """Base Model"""
@@ -19,13 +19,16 @@ class BaseModel:
                     # checking/excluding the '__class__' key from kargs
                     if key in ['created_at', 'updated_at']:
                         # check if the key is in one of those attributes
-                        setattr(self, key, datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f"))
-                        # in order to convert the string representation into a daytime object
+                        setattr(self, key, datetime.strptime(value, \
+                                "%Y-%m-%dT%H:%M:%S.%f"))
+                        # in order to convert the string representation
+                        # into a daytime object
                     else:
                         setattr(self, key, value)
                         # set new attributes based on new provided values
         else:
-            # if not keywards not provided, generate new id, createdat and updated at attributes
+            # if not keywards not provided, generate new id, 
+            # createdat and updated at attributes
             self.id = str(uuid.uuid4())
             # asign universal unique identifier
             self.created_at = datetime.now()

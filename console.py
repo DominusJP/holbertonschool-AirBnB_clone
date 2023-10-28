@@ -113,7 +113,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 del obj_dict[key]
                 storage.save()
-                
+
     def do_all(self, *args):
         """
         Prints all string representation of all instances
@@ -159,6 +159,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 setattr(obj_dict[key], arg[2], arg[3].strip('"'))
         storage.save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
