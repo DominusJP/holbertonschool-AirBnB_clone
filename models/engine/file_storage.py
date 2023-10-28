@@ -53,6 +53,8 @@ class FileStorage:
                     cls = value.get("__class__")
                     new_obj = eval(cls+'(**value)')
                     # Use eval to create an instance of the class based on the class name
-                    self.new(new_obj)
-        except Exception:
-            pass
+                    self.__objects.append(new_obj)
+        except FileNotFoundError:
+            print("File not found. No data loaded.")
+        except Exception as e:
+            print(f"Unexpected error: {e}")
