@@ -19,15 +19,14 @@ class BaseModel:
                     # checking/excluding the '__class__' key from kargs
                     if key in ['created_at', 'updated_at']:
                         # check if the key is in one of those attributes
-                        setattr(self, key, datetime.strptime(value, \
-                                "%Y-%m-%dT%H:%M:%S.%f"))
+                        setattr(self, key, datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f"))
                         # in order to convert the string representation
                         # into a daytime object
                     else:
                         setattr(self, key, value)
                         # set new attributes based on new provided values
         else:
-            # if not keywards not provided, generate new id, 
+            # if not keywards not provided, generate new id,
             # createdat and updated at attributes
             self.id = str(uuid.uuid4())
             # asign universal unique identifier
@@ -37,18 +36,22 @@ class BaseModel:
             # assigns current date to the updated_at attribute
         storage.new(self) # set other attributes from kwargs
 
+
     def save(self):
         """This line defines a method named save. This method is used
         to update the updated_at attribute with the current date and time
         whenever an instance is modified."""
+
         self.updated_at = datetime.now() \
             # This line updates the updated_at attribute with the
         # current date and time when the save method is called.
         storage.save() # save the obkect using the storage
         return self.updated_at
 
+
     def __str__(self):
         """prints class name followed by id and dict"""
+
         class_name = self.__class__.__name__ \
             # gets the name of the class as a string
         return (f"[{class_name}] ({self.id}) {self.__dict__}") \

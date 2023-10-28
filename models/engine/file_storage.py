@@ -11,23 +11,22 @@ class FileStorage:
     Class used for file storage as name suggests
     """
 
-
     __file_path = "file.json"
     __objects = {}
-    
+
     def all(self):
         """
         Method that returns the dictionary objects
         """
         return FileStorage.__objects
-    
+
     def new(self, obj):
         """
         sets in __objects the obj with key <obj class name>.id
         """
         FileStorage.__objects["{}.{}".format(obj.__class__.__name__,
                                              obj.id)] = obj
-    
+
     def save(self):
         """
         serializes __objects to the JSON file
@@ -52,7 +51,8 @@ class FileStorage:
                 for key, value in obj_dict.items():
                     cls = value.get("__class__")
                     new_obj = eval(cls+'(**value)')
-                    # Use eval to create an instance of the class based on the class name
+                    # Use eval to create an instance of the class
+                    # based on the class name
                     self.new(new_obj)
         except Exception:
             pass
