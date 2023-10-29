@@ -1,6 +1,6 @@
-****Airbnb - The Console****
+# ***Airbnb - The Console***
 
-**Project Description**
+# **Project Description**
 The Airbnb - The Console project serves as the first project/step to build a functioning replica of the real Airbnb website. 
 This project includes creating objects, learning about file serialization, and creating our first storage engine (the file storage).
 
@@ -11,7 +11,12 @@ Diagram that might come in hundy for this project:
 
 
 
-**Command Interpreter Description**
-In order to start it,
-In order to use it,
-Examples:
+# **Command Interpreter Description**
+In order to start it, write `./console.py` in the terminal
+In order to use it, you can use any of the following commands:
+- `help` shows a guide for the console
+- `create` creates a new ID for the given class
+- `show` prints a string representation based on the class name and ID
+- `destroy` removes the previous ID from the given instance
+- `all` Prints all string representation of all instances based or not on the class name
+- `update` Updates an instance based on the class name and ID by adding or updating attribute
