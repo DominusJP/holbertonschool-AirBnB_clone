@@ -1,49 +1,108 @@
 #!/usr/bin/python3
+
+import unittest
+from unittest.mock import patch
+import time
+import re
+import datetime
+import os
 from models.base_model import BaseModel
+from models import storage
 
-my_model = BaseModel()
-my_model.name = "My First Model"
-my_model.my_number = 89
-print(my_model)
-my_model.save()
-print(my_model)
-my_model_json = my_model.to_dict()
-print(my_model_json)
-print("JSON of my_model:")
-for key in my_model_json.keys():
-    print("\t{}: ({}) - {}".format(key, type(my_model_json[key]), my_model_json[key]))
+"""
+Module to test the base_model
+"""
 
-class Tests_BaseModel(unittest.TestCase):
-    """
-    tests of BaseModel class
-    """
-    def test_unique_objects(self):
-        obj1 = BaseModel()
-        obj2 = BaseModel()
-        self.assertNotEqual(obj1.to_dict, obj2.to_dict)
 
-    def test_update_time(self):
-        obj1 = BaseModel()
-        origin = obj1.to_dict()
-        obj1.save()
-        self.assertNotEqual(origin, obj1.to_dict)
+class TestBaseModelClass(unittest.TestCase):
 
-    def test_str_repr(self):
-        obj1 = BaseModel()
-        str_obj1 = f"[{type(obj1).__name__}] ({obj1.id}) {obj1.__dict__}"
-        self.assertEqual(str(obj1), str_obj1)
+    """Tests for BaseModel class"""
 
-    def test_type_returned(self):
-        obj1 = BaseModel()
-        self.assertEqual(str, type(obj1.__str__()))
-        self.assertEqual(dict, type(obj1.to_dict()))
+    def testIdString(self):
+        """Checks if id is a string"""
+        a = BaseModel()
+        self.assertEqual(type(a.id), str)
 
-    def test_reload(self):
-        self.storage.new(self.base_model)
-        self.storage.save()
+    def testUniqueId(self):
+        """Checks if the id is unique"""
+        a = BaseModel()
+        b = BaseModel()
+        self.assertNotEqual(a.id, b.id)
 
-        new_storage = FileStorage()
-        new_storage.reload()
+    def testCreatedTime(self):
+        """
+            Checks if the created_at time is greater
+            than updated time.
+        """
+        a = BaseModel()
+        time.sleep(1)
+        a.save()
+        self.assertTrue(a.created_at < a.updated_at)
 
-        obj_key = f"{self.base_model.__class__.__name__}.{self.base_model.id}"
-        self.assertTrue(obj_key in new_storage.all())
+    def testStrRepresentation(self):
+        """Checks if the str representation is correct"""
+        a = BaseModel()
+        a_repr = a.__str__()
+        r_str = f"[{type(a).__name__}] ({a.id}) {a.__dict__}"
+        self.assertEqual(a_repr, r_str)
+
+    def testToDict(self):
+        """
+            Checks if the to_dict method returns the correct key/value
+            pairs.
+        """
+        a = BaseModel()
+        res_dict = a.__dict__.copy()
+        res_dict.update(__class__=type(a).__name__)
+        res_dict.update(created_at=a.created_at.isoformat())
+        res_dict.update(updated_at=a.updated_at.isoformat())
+        self.assertEqual(res_dict, a.to_dict())
+
+    def testToDictDatetimeFormat(self):
+        """Test if the datetime convert in string."""
+        a = BaseModel()
+        a_dict = a.to_dict()
+        self.assertTrue(isinstance(a_dict['created_at'], str))
+        self.assertTrue(isinstance(a_dict['updated_at'], str))
+
+    def test_to_dict_class_name(self):
+        """Test if the dict contains the __class__ with the value BaseModel."""
+        a = BaseModel()
+        a_dict = a.to_dict()
+        self.assertEqual(a_dict['__class__'], 'BaseModel')
+
+    def testCheckClassAttribute(self):
+        """Checks if the __class__ attribute is not added"""
+        a = BaseModel(__class__="Rectangle")
+        self.assertNotEqual(a.__class__, "Rectangle")
+
+    def testCreatedAtKwargs(self):
+        """Check if created_at is a datetime object"""
+        a = BaseModel(created_at="2017-09-28T21:05:54.119572")
+        self.assertEqual(type(a.created_at), datetime.datetime)
+
+    def testUpdatedAtKwargs(self):
+        """Check if updated_at is a datetime object"""
+        a = BaseModel(updated_at="2017-09-28T21:05:54.119572")
+        self.assertEqual(type(a.updated_at), datetime.datetime)
+
+    def test_default_values(self):
+        """Test if initialized with null values"""
+        a = BaseModel()
+        self.assertIsNotNone(a.id)
+        self.assertIsNotNone(a.created_at)
+        self.assertIsNotNone(a.updated_at)
+
+    def test_save_method(self):
+        """Test if save method calls save method of storage."""
+        obj = BaseModel()
+        with unittest.mock.patch.object(storage, 'save') as mock_save:
+            obj.save()
+            mock_save.assert_called_once()
+
+    def test_new_method(self):
+        """Test if new method calls new method of storage."""
+        obj = BaseModel()
+        with unittest.mock.patch.object(storage, 'new') as mock_new:
+            obj.__init__()
+            mock_new.assert_called_once_with(obj)
