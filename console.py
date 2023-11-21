@@ -45,22 +45,52 @@ class HBNBCommand(cmd.Cmd):
         """
         creates a new instance of an object
         """
-        arg = args[0].split()
-        class_name = arg[0]
-        if len(arg) == 0:
+        if not args:
             print("** class name missing **")
+            return
 
-        elif arg[0] not in HBNBCommand.models:
-            print("** class doesn't exist **")
+        # Split the command line into class name and parameters
+        split_args = shlex.split(args)
 
-        elif class_name in globals():
-            obj = globals()[class_name]()
-            # globals is a built in function including all of the
-            # variables and their values
-            obj.save()
-            print(obj.id)
-        elif class_name not in globals():
+        class_name = split_args[0]
+
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
+            return
+
+        # Check if parameters are provided
+        if len(split_args) > 1:
+            params = split_args[1:]
+
+            # Parse and process parameters
+            kwargs = {}
+            for param in params:
+                try:
+                    key, value = param.split('=')
+                    # Replace underscores with spaces
+                    value = value.replace('_', ' ')
+                    # Handle double quotes in string values
+                    if value[0] == '"' and value[-1] == '"':
+                        value = value[1:-1].replace('\\"', '"')
+                    # Convert to the appropriate type
+                    if '.' in value:
+                        kwargs[key] = float(value)
+                    elif value.isdigit():
+                        kwargs[key] = int(value)
+                    else:
+                        kwargs[key] = value
+                except ValueError:
+                    # Skip invalid parameters
+                    print(f"Skipping invalid parameter: {param}")
+
+            # Create an instance with the specified parameters
+            new_instance = HBNBCommand.classes[class_name](**kwargs)
+        else:
+            # Create an instance without parameters
+            new_instance = HBNBCommand.classes[class_name]()
+
+        print(new_instance.id)
+        storage.save()
 
     def do_show(self, *args):
         """
